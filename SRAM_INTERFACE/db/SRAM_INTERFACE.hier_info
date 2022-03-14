@@ -1,0 +1,223 @@
+|SRAM_INTERFACE
+datain[0] => flip_flop:ff_DQ.d[0]
+datain[0] => binto7seg:tr_WE.bin[0]
+datain[1] => flip_flop:ff_DQ.d[1]
+datain[1] => binto7seg:tr_WE.bin[1]
+datain[2] => flip_flop:ff_DQ.d[2]
+datain[2] => binto7seg:tr_WE.bin[2]
+datain[3] => flip_flop:ff_DQ.d[3]
+datain[3] => binto7seg:tr_WE.bin[3]
+Clock => flip_flop:ff_WE.clk
+Clock => flip_flop:ff_DQ.clk
+Clock => flip_flop:ff_ADDR.clk
+WriteEnable[0] => flip_flop:ff_WE.d[0]
+WriteEnableLEDG[0] <= flip_flop:ff_WE.q[0]
+WriteEnableSRAM_WE_N[0] <= flip_flop:ff_WE.q[0]
+datainHEX0[0] <= binto7seg:tr_WE.HEX[0]
+datainHEX0[1] <= binto7seg:tr_WE.HEX[1]
+datainHEX0[2] <= binto7seg:tr_WE.HEX[2]
+datainHEX0[3] <= binto7seg:tr_WE.HEX[3]
+datainHEX0[4] <= binto7seg:tr_WE.HEX[4]
+datainHEX0[5] <= binto7seg:tr_WE.HEX[5]
+datainHEX0[6] <= binto7seg:tr_WE.HEX[6]
+dataBusSRAM_DQ[0] <> dataBusSRAM_DQ[0]
+dataBusSRAM_DQ[1] <> dataBusSRAM_DQ[1]
+dataBusSRAM_DQ[2] <> dataBusSRAM_DQ[2]
+dataBusSRAM_DQ[3] <> dataBusSRAM_DQ[3]
+dataBusSRAM_DQ[4] <> dataBusSRAM_DQ[4]
+dataBusSRAM_DQ[5] <> dataBusSRAM_DQ[5]
+dataBusSRAM_DQ[6] <> dataBusSRAM_DQ[6]
+dataBusSRAM_DQ[7] <> dataBusSRAM_DQ[7]
+dataBusSRAM_DQ[8] <> dataBusSRAM_DQ[8]
+dataBusSRAM_DQ[9] <> dataBusSRAM_DQ[9]
+dataBusSRAM_DQ[10] <> dataBusSRAM_DQ[10]
+dataBusSRAM_DQ[11] <> dataBusSRAM_DQ[11]
+dataBusSRAM_DQ[12] <> dataBusSRAM_DQ[12]
+dataBusSRAM_DQ[13] <> dataBusSRAM_DQ[13]
+dataBusSRAM_DQ[14] <> dataBusSRAM_DQ[14]
+dataBusSRAM_DQ[15] <> dataBusSRAM_DQ[15]
+dataOutHEX1[0] <= binto7seg:tr_DQ.HEX[0]
+dataOutHEX1[1] <= binto7seg:tr_DQ.HEX[1]
+dataOutHEX1[2] <= binto7seg:tr_DQ.HEX[2]
+dataOutHEX1[3] <= binto7seg:tr_DQ.HEX[3]
+dataOutHEX1[4] <= binto7seg:tr_DQ.HEX[4]
+dataOutHEX1[5] <= binto7seg:tr_DQ.HEX[5]
+dataOutHEX1[6] <= binto7seg:tr_DQ.HEX[6]
+Adress[0] => flip_flop:ff_ADDR.d[0]
+Adress[1] => flip_flop:ff_ADDR.d[1]
+Adress[2] => flip_flop:ff_ADDR.d[2]
+Adress[3] => flip_flop:ff_ADDR.d[3]
+AdressBusSRAM_ADDR[0] <= flip_flop:ff_ADDR.q[0]
+AdressBusSRAM_ADDR[1] <= flip_flop:ff_ADDR.q[1]
+AdressBusSRAM_ADDR[2] <= flip_flop:ff_ADDR.q[2]
+AdressBusSRAM_ADDR[3] <= flip_flop:ff_ADDR.q[3]
+AdressBusHEX3[0] <= binto7seg:tr_ADDR.HEX[0]
+AdressBusHEX3[1] <= binto7seg:tr_ADDR.HEX[1]
+AdressBusHEX3[2] <= binto7seg:tr_ADDR.HEX[2]
+AdressBusHEX3[3] <= binto7seg:tr_ADDR.HEX[3]
+AdressBusHEX3[4] <= binto7seg:tr_ADDR.HEX[4]
+AdressBusHEX3[5] <= binto7seg:tr_ADDR.HEX[5]
+AdressBusHEX3[6] <= binto7seg:tr_ADDR.HEX[6]
+SRAM_CE_N <= <GND>
+SRAM_OE_N <= <GND>
+SRAM_UB_N <= <GND>
+SRAM_LB_N <= <GND>
+HEX2OFF[0] <= <VCC>
+HEX2OFF[1] <= <VCC>
+HEX2OFF[2] <= <VCC>
+HEX2OFF[3] <= <VCC>
+HEX2OFF[4] <= <VCC>
+HEX2OFF[5] <= <VCC>
+HEX2OFF[6] <= <VCC>
+
+
+|SRAM_INTERFACE|flip_flop:ff_WE
+d[0] => q[0]~reg0.DATAIN
+clk => q[0]~reg0.CLK
+q[0] <= q[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|SRAM_INTERFACE|flip_flop:ff_DQ
+d[0] => q[0]~reg0.DATAIN
+d[1] => q[1]~reg0.DATAIN
+d[2] => q[2]~reg0.DATAIN
+d[3] => q[3]~reg0.DATAIN
+clk => q[0]~reg0.CLK
+clk => q[1]~reg0.CLK
+clk => q[2]~reg0.CLK
+clk => q[3]~reg0.CLK
+q[0] <= q[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+q[1] <= q[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+q[2] <= q[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+q[3] <= q[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|SRAM_INTERFACE|flip_flop:ff_ADDR
+d[0] => q[0]~reg0.DATAIN
+d[1] => q[1]~reg0.DATAIN
+d[2] => q[2]~reg0.DATAIN
+d[3] => q[3]~reg0.DATAIN
+clk => q[0]~reg0.CLK
+clk => q[1]~reg0.CLK
+clk => q[2]~reg0.CLK
+clk => q[3]~reg0.CLK
+q[0] <= q[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+q[1] <= q[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+q[2] <= q[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+q[3] <= q[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|SRAM_INTERFACE|binto7seg:tr_WE
+bin[0] => Mux0.IN19
+bin[0] => Mux1.IN19
+bin[0] => Mux2.IN19
+bin[0] => Mux3.IN19
+bin[0] => Mux4.IN19
+bin[0] => Mux5.IN19
+bin[0] => Mux6.IN19
+bin[1] => Mux0.IN18
+bin[1] => Mux1.IN18
+bin[1] => Mux2.IN18
+bin[1] => Mux3.IN18
+bin[1] => Mux4.IN18
+bin[1] => Mux5.IN18
+bin[1] => Mux6.IN18
+bin[2] => Mux0.IN17
+bin[2] => Mux1.IN17
+bin[2] => Mux2.IN17
+bin[2] => Mux3.IN17
+bin[2] => Mux4.IN17
+bin[2] => Mux5.IN17
+bin[2] => Mux6.IN17
+bin[3] => Mux0.IN16
+bin[3] => Mux1.IN16
+bin[3] => Mux2.IN16
+bin[3] => Mux3.IN16
+bin[3] => Mux4.IN16
+bin[3] => Mux5.IN16
+bin[3] => Mux6.IN16
+HEX[0] <= Mux6.DB_MAX_OUTPUT_PORT_TYPE
+HEX[1] <= Mux5.DB_MAX_OUTPUT_PORT_TYPE
+HEX[2] <= Mux4.DB_MAX_OUTPUT_PORT_TYPE
+HEX[3] <= Mux3.DB_MAX_OUTPUT_PORT_TYPE
+HEX[4] <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
+HEX[5] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
+HEX[6] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|SRAM_INTERFACE|binto7seg:tr_DQ
+bin[0] => Mux0.IN19
+bin[0] => Mux1.IN19
+bin[0] => Mux2.IN19
+bin[0] => Mux3.IN19
+bin[0] => Mux4.IN19
+bin[0] => Mux5.IN19
+bin[0] => Mux6.IN19
+bin[1] => Mux0.IN18
+bin[1] => Mux1.IN18
+bin[1] => Mux2.IN18
+bin[1] => Mux3.IN18
+bin[1] => Mux4.IN18
+bin[1] => Mux5.IN18
+bin[1] => Mux6.IN18
+bin[2] => Mux0.IN17
+bin[2] => Mux1.IN17
+bin[2] => Mux2.IN17
+bin[2] => Mux3.IN17
+bin[2] => Mux4.IN17
+bin[2] => Mux5.IN17
+bin[2] => Mux6.IN17
+bin[3] => Mux0.IN16
+bin[3] => Mux1.IN16
+bin[3] => Mux2.IN16
+bin[3] => Mux3.IN16
+bin[3] => Mux4.IN16
+bin[3] => Mux5.IN16
+bin[3] => Mux6.IN16
+HEX[0] <= Mux6.DB_MAX_OUTPUT_PORT_TYPE
+HEX[1] <= Mux5.DB_MAX_OUTPUT_PORT_TYPE
+HEX[2] <= Mux4.DB_MAX_OUTPUT_PORT_TYPE
+HEX[3] <= Mux3.DB_MAX_OUTPUT_PORT_TYPE
+HEX[4] <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
+HEX[5] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
+HEX[6] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|SRAM_INTERFACE|binto7seg:tr_ADDR
+bin[0] => Mux0.IN19
+bin[0] => Mux1.IN19
+bin[0] => Mux2.IN19
+bin[0] => Mux3.IN19
+bin[0] => Mux4.IN19
+bin[0] => Mux5.IN19
+bin[0] => Mux6.IN19
+bin[1] => Mux0.IN18
+bin[1] => Mux1.IN18
+bin[1] => Mux2.IN18
+bin[1] => Mux3.IN18
+bin[1] => Mux4.IN18
+bin[1] => Mux5.IN18
+bin[1] => Mux6.IN18
+bin[2] => Mux0.IN17
+bin[2] => Mux1.IN17
+bin[2] => Mux2.IN17
+bin[2] => Mux3.IN17
+bin[2] => Mux4.IN17
+bin[2] => Mux5.IN17
+bin[2] => Mux6.IN17
+bin[3] => Mux0.IN16
+bin[3] => Mux1.IN16
+bin[3] => Mux2.IN16
+bin[3] => Mux3.IN16
+bin[3] => Mux4.IN16
+bin[3] => Mux5.IN16
+bin[3] => Mux6.IN16
+HEX[0] <= Mux6.DB_MAX_OUTPUT_PORT_TYPE
+HEX[1] <= Mux5.DB_MAX_OUTPUT_PORT_TYPE
+HEX[2] <= Mux4.DB_MAX_OUTPUT_PORT_TYPE
+HEX[3] <= Mux3.DB_MAX_OUTPUT_PORT_TYPE
+HEX[4] <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
+HEX[5] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
+HEX[6] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+

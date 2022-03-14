@@ -1,0 +1,95 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+ENTITY interface_sdram IS
+PORT
+(
+  WriteEnable				:	IN	STD_LOGIC_VECTOR(0 DOWNTO 0);	-- SW9
+  datain					:	IN	STD_LOGIC_VECTOR(3 DOWNTO 0);	-- SW3-0
+  Adress					:	IN	STD_LOGIC_VECTOR(3 DOWNTO 0);	-- SW7-4
+  --Switches				:	IN	STD_LOGIC_VECTOR(9 DOWNTO 0);	-- SW9-0
+  Clock						:	IN	STD_LOGIC;						-- KEY0
+	
+  WriteEnableLEDG			:	OUT STD_LOGIC_VECTOR(0 DOWNTO 0);	-- LEDG 
+  WriteEnableSRAM_WE_N		:	OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
+  datainHEX0				:	OUT STD_LOGIC_VECTOR(6 DOWNTO 0);	-- HEX0
+  
+  dataBusSRAM_DQ			:	INOUT	STD_LOGIC_VECTOR(15 DOWNTO 0) := "ZZZZ";
+  
+  dataOutHEX1				:	OUT	STD_LOGIC_VECTOR(6 DOWNTO 0);	-- HEX1
+  AdressBusSRAM_ADDR		:	OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+  AdressBusHEX3				:	OUT STD_LOGIC_VECTOR(6 DOWNTO 0);	-- HEX3
+	
+  SRAM_CE_N					:	OUT STD_LOGIC;
+  SRAM_OE_N					:	OUT STD_LOGIC;
+  SRAM_UB_N					:	OUT STD_LOGIC;
+  SRAM_LB_N					:	OUT STD_LOGIC
+);
+END interface_sdram;
+
+ARCHITECTURE rtl OF interface_sdram IS
+
+  COMPONENT flip_flop IS
+  GENERIC
+  (
+    N : INTEGER RANGE 0 to 4 := 4
+  );
+  PORT
+  (
+    d   :  IN  STD_LOGIC_VECTOR(N DOWNTO 0);
+	clk	:  IN  STD_LOGIC;
+	
+    q   :  OUT STD_LOGIC_VECTOR(N DOWNTO 0)		
+  );
+  END COMPONENT;
+  
+  COMPONENT binto7seg IS
+  PORT
+  (
+    bin :  IN	STD_LOGIC_VECTOR(3 DOWNTO 0);
+    HEX :  OUT	STD_LOGIC_VECTOR(6 DOWNTO 0)
+  );
+  END COMPONENT;
+
+  SIGNAL sig_WE_N     : STD_LOGIC_VECTOR(0 DOWNTO 0);
+  SIGNAL sig_SRAM_DQ  : STD_LOGIC_VECTOR(3 DOWNTO 0);
+  SIGNAL sig_SAM_ADDR : STD_LOGIC_VECTOR(3 DOWNTO 0);
+
+BEGIN
+
+  WriteEnableLEDG      <= sig_WE_N;
+  WriteEnableSRAM_WE_N <= sig_WE_N;
+  
+  dataBusSRAM_DQ       <= ("000000000000" & sig_SRAM_DQ(3 DOWNTO 0)) WHEN WriteEnable = "0" ELSE
+                           "ZZZZZZZZZZZZZZZZ";
+  
+  AdressBusSRAM_ADDR   <= sig_SAM_ADDR;
+  
+--  SRAM_CE_N            <=;
+--  SRAM_OE_N            <=;
+--  SRAM_UB_N            <=;
+--  SRAM_LB_N            <=;
+  
+  u1:	flip_flop
+  GENERIC MAP(N => 0)
+  PORT MAP(WriteEnable,Clock,sig_WE_N);
+	
+  u2: flip_flop
+  GENERIC MAP(N => 3)
+  PORT MAP(datain,Clock,sig_SRAM_DQ);
+	
+  u3:	flip_flop
+  GENERIC MAP(N => 3)
+  PORT MAP(Adress,Clock,sig_SAM_ADDR);
+	
+  u4:	binto7seg
+  PORT MAP(datain,datainHEX0);
+  
+  u5:	binto7seg
+  PORT MAP(sig_SRAM_DQ,dataOutHEX1);
+	
+  u6:	binto7seg
+  PORT MAP(sig_SAM_ADDR,AdressBusHEX3);
+
+end rtl;

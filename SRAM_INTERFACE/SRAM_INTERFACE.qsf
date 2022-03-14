@@ -1,0 +1,119 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 32-bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# Date created = 13:40:35  March 07, 2022
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		SRAM_INTERFACE_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone II"
+set_global_assignment -name DEVICE EP2C20F484C7
+set_global_assignment -name TOP_LEVEL_ENTITY SRAM_INTERFACE
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "13:40:35  MARCH 07, 2022"
+set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name VHDL_FILE SRAM_INTERFACE.vhd
+set_global_assignment -name VHDL_FILE flip_flop.vhd
+set_global_assignment -name VHDL_FILE binto7seg.vhd
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_location_assignment PIN_AB5 -to SRAM_CE_N
+set_location_assignment PIN_Y7 -to SRAM_LB_N
+set_location_assignment PIN_T8 -to SRAM_OE_N
+set_location_assignment PIN_W7 -to SRAM_UB_N
+set_location_assignment PIN_W12 -to Adress[0]
+set_location_assignment PIN_L22 -to datain[0]
+set_location_assignment PIN_L21 -to datain[1]
+set_location_assignment PIN_M22 -to datain[2]
+set_location_assignment PIN_V12 -to datain[3]
+set_location_assignment PIN_U12 -to Adress[1]
+set_location_assignment PIN_M2 -to Adress[3]
+set_location_assignment PIN_U11 -to Adress[2]
+set_location_assignment PIN_D4 -to AdressBusHEX3[6]
+set_location_assignment PIN_AA10 -to WriteEnableSRAM_WE_N[0]
+set_location_assignment PIN_L2 -to WriteEnable[0]
+set_location_assignment PIN_U22 -to WriteEnableLEDG[0]
+set_location_assignment PIN_R21 -to Clock
+set_location_assignment PIN_J2 -to datainHEX0[0]
+set_location_assignment PIN_J1 -to datainHEX0[1]
+set_location_assignment PIN_H2 -to datainHEX0[2]
+set_location_assignment PIN_H1 -to datainHEX0[3]
+set_location_assignment PIN_F2 -to datainHEX0[4]
+set_location_assignment PIN_F1 -to datainHEX0[5]
+set_location_assignment PIN_E2 -to datainHEX0[6]
+set_location_assignment PIN_E1 -to dataOutHEX1[0]
+set_location_assignment PIN_H6 -to dataOutHEX1[1]
+set_location_assignment PIN_H5 -to dataOutHEX1[2]
+set_location_assignment PIN_H4 -to dataOutHEX1[3]
+set_location_assignment PIN_G3 -to dataOutHEX1[4]
+set_location_assignment PIN_D2 -to dataOutHEX1[5]
+set_location_assignment PIN_D1 -to dataOutHEX1[6]
+set_location_assignment PIN_AA3 -to AdressBusSRAM_ADDR[0]
+set_location_assignment PIN_AB3 -to AdressBusSRAM_ADDR[1]
+set_location_assignment PIN_AA4 -to AdressBusSRAM_ADDR[2]
+set_location_assignment PIN_AB4 -to AdressBusSRAM_ADDR[3]
+set_location_assignment PIN_AA6 -to dataBusSRAM_DQ[0]
+set_location_assignment PIN_AB6 -to dataBusSRAM_DQ[1]
+set_location_assignment PIN_AA7 -to dataBusSRAM_DQ[2]
+set_location_assignment PIN_AB7 -to dataBusSRAM_DQ[3]
+set_location_assignment PIN_AA8 -to dataBusSRAM_DQ[4]
+set_location_assignment PIN_AB8 -to dataBusSRAM_DQ[5]
+set_location_assignment PIN_AA9 -to dataBusSRAM_DQ[6]
+set_location_assignment PIN_AB9 -to dataBusSRAM_DQ[7]
+set_location_assignment PIN_Y9 -to dataBusSRAM_DQ[8]
+set_location_assignment PIN_W9 -to dataBusSRAM_DQ[9]
+set_location_assignment PIN_V9 -to dataBusSRAM_DQ[10]
+set_location_assignment PIN_U9 -to dataBusSRAM_DQ[11]
+set_location_assignment PIN_R9 -to dataBusSRAM_DQ[12]
+set_location_assignment PIN_W8 -to dataBusSRAM_DQ[13]
+set_location_assignment PIN_V8 -to dataBusSRAM_DQ[14]
+set_location_assignment PIN_U8 -to dataBusSRAM_DQ[15]
+set_location_assignment PIN_F4 -to AdressBusHEX3[0]
+set_location_assignment PIN_D5 -to AdressBusHEX3[1]
+set_location_assignment PIN_D6 -to AdressBusHEX3[2]
+set_location_assignment PIN_J4 -to AdressBusHEX3[3]
+set_location_assignment PIN_L8 -to AdressBusHEX3[4]
+set_location_assignment PIN_F3 -to AdressBusHEX3[5]
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_G5 -to HEX2OFF[0]
+set_location_assignment PIN_G6 -to HEX2OFF[1]
+set_location_assignment PIN_C2 -to HEX2OFF[2]
+set_location_assignment PIN_C1 -to HEX2OFF[3]
+set_location_assignment PIN_E3 -to HEX2OFF[4]
+set_location_assignment PIN_E4 -to HEX2OFF[5]
+set_location_assignment PIN_D3 -to HEX2OFF[6]
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
