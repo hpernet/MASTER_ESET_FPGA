@@ -8,8 +8,8 @@
 #define PIXELMAP_BASE_ADRESS	(volatile uint16_t*)	0x08000000
 #define STATUS_REGISTER 		(volatile uint16_t*)	0x1000302C
 #define FRONT_BUFFER_REGISTER   (volatile uint16_t*)	0x10003020
-#define X_MAX 320 
-#define Y_MAX 240
+#define X_MAX                  320 
+#define Y_MAX                  240
 #define COLOR_BLACK            0x0000
 #define COLOR_WHITE            0xFFFF
 #define COLOR_RED              0xF800
@@ -17,37 +17,119 @@
 #define COLOR_GRAY             0x8410
 #define COLOR_GREEN            0x7E00
 #define COLOR_BLUE             0x001F
+#define NB_COLOR               6
+#define NB_OF_NODE             10
 
 // FUNCTIONS PROTOTYPE --------------------------------------------------------------------------------------
 void draw_pixel(uint16_t x, uint16_t y, uint16_t color);
 void draw_background(uint16_t color);
 void draw_line(int x0, int x1, int y0, int y1, int color);
 
+typedef struct 
+{
+	int coord_x;
+	int coord_y;
+	
+	int sens_x;
+	int sens_y;
+} node_t;
+
 // VARIABLES  -----------------------------------------------------------------------------------------------
 int index	= 0;
 int p_index	= Y_MAX-1;
+int node_index;
+int color_array[NB_COLOR] = {0xFFFF, 0xF800, 0xF81F, 0x8410, 0x7E00, 0x001F};
+
+node_t node_array[NB_OF_NODE];
 
 // MAIN -----------------------------------------------------------------------------------------------------
 int main(void)
 {
+	// INITIALIZE
 	draw_background(COLOR_BLACK);
+	
+	for(node_index = 0; node_index < NB_OF_NODE; node_index++)
+	{
+		node_array[node_index].coord_x = rand() % X_MAX;
+		node_array[node_index].coord_y = rand() % Y_MAX;
+	}
 	
 	while(1)
 	{
 		// Wait next write cycle
 		*FRONT_BUFFER_REGISTER = 1;
 		while ((*STATUS_REGISTER & 1) !=0);
+		
+		
+		// ERASE figure
+		for(node_index = 0; node_index < NB_OF_NODE; node_index++)
+		{
+			draw_line(node_array[node_index].coord_x, 
+					  node_array[(node_index + 1) % NB_OF_NODE].coord_x, 
+					  node_array[node_index].coord_y, 
+					  node_array[(node_index + 1) % NB_OF_NODE].coord_y, 
+					  COLOR_BLACK);
+		}
+		
+		// Incremente node coord
+		for(node_index = 0; node_index < NB_OF_NODE; node_index++)
+		{
+			if (node_array[node_index].sens_x == 1)
+			{
+				if(node_array[node_index].coord_x >= X_MAX)
+				{
+					node_array[node_index].sens_x = 0;
+				}
+				else 
+				{
+					node_array[node_index].coord_x++;
+				}
+			}
+			else 
+			{
+				if(node_array[node_index].coord_x <= 0)
+				{
+					node_array[node_index].sens_x = 1;
+				}
+				else 
+				{
+					node_array[node_index].coord_x--;
+				}
+			}
 			
-		draw_line(0, X_MAX, p_index, p_index, 0x0000);
-		draw_line(0, X_MAX, index, index, 0xF800);
-		if(p_index == Y_MAX-1)
-			p_index=0;
-		else
-			p_index++;
-		if(index == Y_MAX-1)
-			index=0;
-		else
-			index++;
+			if (node_array[node_index].sens_y == 1)
+			{
+				if(node_array[node_index].coord_y >= Y_MAX)
+				{
+					node_array[node_index].sens_y = 0;
+				}
+				else 
+				{
+					node_array[node_index].coord_y++;
+				}
+			}
+			else 
+			{
+				if(node_array[node_index].coord_y <= 0)
+				{
+					node_array[node_index].sens_y = 1;
+				}
+				else 
+				{
+					node_array[node_index].coord_y--;
+				}
+			}
+		}
+		
+		// Draw figure
+		for(node_index = 0; node_index < NB_OF_NODE; node_index++)
+		{
+			draw_line(node_array[node_index].coord_x, 
+					  node_array[(node_index + 1) % NB_OF_NODE].coord_x, 
+					  node_array[node_index].coord_y, 
+					  node_array[(node_index + 1) % NB_OF_NODE].coord_y, 
+					  color_array[node_index % NB_COLOR]);
+		}
 	}
 }
 
