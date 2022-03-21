@@ -1,0 +1,49 @@
+// Incremente node coord
+	for(node_index = 0; node_index < NB_OF_NODE; node_index++)
+	{
+		if (node_array[node_index].sens_x == 1)
+		{
+			if(node_array[node_index].coord_x >= X_MAX)
+			{
+				node_array[node_index].sens_x = 0;
+			}
+			else 
+			{
+				node_array[node_index].coord_x += INCREMENT;
+			}
+		}
+		else 
+		{
+			if(node_array[node_index].coord_x <= 0)
+			{
+				node_array[node_index].sens_x = 1;
+			}
+			else 
+			{
+				node_array[node_index].coord_x -= INCREMENT;
+			}
+		}
+		
+		if (node_array[node_index].sens_y == 1)
+		{
+			if(node_array[node_index].coord_y >= Y_MAX)
+			{
+				node_array[node_index].sens_y = 0;
+			}
+			else 
+			{
+				node_array[node_index].coord_y += INCREMENT;
+			}
+		}
+		else 
+		{
+			if(node_array[node_index].coord_y <= 0)
+			{
+				node_array[node_index].sens_y = 1;
+			}
+			else 
+			{
+				node_array[node_index].coord_y -= INCREMENT;
+			}
+		}
+	}

@@ -3,6 +3,7 @@
 #include <stdlib.h> 
 #include <stdint.h>
 #include <stdbool.h>
+#include <math.h>
 
 // DEFINE ---------------------------------------------------------------------------------------------------
 #define FRONT_BUFFER_ADRESS	    	(volatile uint16_t*) 0x08000000
@@ -19,8 +20,8 @@
 #define COLOR_GRAY             0x8410
 #define COLOR_GREEN            0x7E00
 #define COLOR_BLUE             0x001F
-#define NB_COLOR               6
-#define NB_OF_NODE             6
+#define NB_COLOR               16
+#define NB_OF_NODE             16
 #define INCREMENT              1
 
 // FUNCTIONS PROTOTYPE --------------------------------------------------------------------------------------
@@ -41,7 +42,7 @@ typedef struct
 int index	= 0;
 int p_index	= Y_MAX-1;
 int node_index;
-int color_array[NB_COLOR] = {0xFFFF, 0xF800, 0xF81F, 0x8410, 0x7E00, 0x001F};
+int color_array[NB_COLOR] = {0xFFFF, 0x0000, 0xF800, 0x07E0, 0x001F, 0xFFE0, 0x07FF, 0xF81F, 0xC618, 0x8410, 0x8000, 0x8400, 0x0400, 0x8010, 0x0410, 0x0010};
 
 volatile uint16_t* p_front_buffer;
 volatile uint16_t* p_back_buffer;
@@ -56,7 +57,7 @@ int main(void)
 	
 	draw_background(COLOR_BLACK);
 	
-	 swapBufferRegister();
+	swapBufferRegister();
 	
 	draw_background(COLOR_BLACK);
 	
@@ -68,6 +69,23 @@ int main(void)
 		
 	while(1)
 	{
+		int i;
+
+		for(i=0; i<256; i++)
+		{
+			swapBufferRegister();
+			drawrect();
+		}
+	
+		swapBufferRegister();
+		
+		for(i=0; i<NB_COLOR; i++)
+		{
+			draw_background(color_array[i]);
+			swapBufferRegister();
+		}
+		
+		/*
 		// ERASE figure
 		for(node_index = 0; node_index < NB_OF_NODE; node_index++)
 		{
@@ -91,10 +109,23 @@ int main(void)
 					  color_array[node_index % NB_COLOR]);
 		}
 		swapBufferRegister();
+		*/
 	}
 }
 
 // FUNCTIONS ------------------------------------------------------------------------------------------------
+void drawrect()
+{
+	int rnd_x1 = rand() % X_MAX;
+	int rnd_x2 = rand() % X_MAX;
+	int rnd_y1 = rand() % Y_MAX;
+	int rnd_y2 = rand() % Y_MAX;
+	
+	draw_line(rnd_x1, rnd_x2, rnd_y1, rnd_y1, color_array[rand()% NB_COLOR]);
+	draw_line(rnd_x1, rnd_x2, rnd_y2, rnd_y2, color_array[rand()% NB_COLOR]);
+	draw_line(rnd_x1, rnd_x1, rnd_y1, rnd_y2, color_array[rand()% NB_COLOR]);
+	draw_line(rnd_x2, rnd_x2, rnd_y1, rnd_y2, color_array[rand()% NB_COLOR]);
+}
 void calculImage()
 {
 	// Incremente node coord
