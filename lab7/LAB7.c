@@ -5,9 +5,11 @@
 #include <stdbool.h>
 
 // DEFINE ---------------------------------------------------------------------------------------------------
-#define PIXELMAP_BASE_ADRESS	(volatile uint16_t*)	0x08000000
+#define FRONT_BUFFER_ADRESS	    	(volatile uint16_t*) 0x08000000
+#define BACK_BUFFER_ADRESS	    	(volatile uint16_t*) 0x08040000
 #define STATUS_REGISTER 		(volatile uint16_t*)	0x1000302C
-#define FRONT_BUFFER_REGISTER   (volatile uint16_t*)	0x10003020
+#define FRONT_BUFFER_REGISTER   	(volatile uint16_t*) 0x10003020
+#define BACK_BUFFER_REGISTER    	(volatile uint16_t*) 0x10003024
 #define X_MAX                  320 
 #define Y_MAX                  240
 #define COLOR_BLACK            0x0000
@@ -18,7 +20,8 @@
 #define COLOR_GREEN            0x7E00
 #define COLOR_BLUE             0x001F
 #define NB_COLOR               6
-#define NB_OF_NODE             10
+#define NB_OF_NODE             6
+#define INCREMENT              1
 
 // FUNCTIONS PROTOTYPE --------------------------------------------------------------------------------------
 void draw_pixel(uint16_t x, uint16_t y, uint16_t color);
@@ -40,12 +43,21 @@ int p_index	= Y_MAX-1;
 int node_index;
 int color_array[NB_COLOR] = {0xFFFF, 0xF800, 0xF81F, 0x8410, 0x7E00, 0x001F};
 
+volatile uint16_t* p_front_buffer;
+volatile uint16_t* p_back_buffer;
+
 node_t node_array[NB_OF_NODE];
 
 // MAIN -----------------------------------------------------------------------------------------------------
 int main(void)
 {
-	// INITIALIZE
+	p_front_buffer = FRONT_BUFFER_ADRESS;
+	p_back_buffer  = BACK_BUFFER_ADRESS;
+	
+	draw_background(COLOR_BLACK);
+	
+	 swapBufferRegister();
+	
 	draw_background(COLOR_BLACK);
 	
 	for(node_index = 0; node_index < NB_OF_NODE; node_index++)
@@ -53,14 +65,9 @@ int main(void)
 		node_array[node_index].coord_x = rand() % X_MAX;
 		node_array[node_index].coord_y = rand() % Y_MAX;
 	}
-	
+		
 	while(1)
 	{
-		// Wait next write cycle
-		*FRONT_BUFFER_REGISTER = 1;
-		while ((*STATUS_REGISTER & 1) !=0);
-		
-		
 		// ERASE figure
 		for(node_index = 0; node_index < NB_OF_NODE; node_index++)
 		{
@@ -70,56 +77,9 @@ int main(void)
 					  node_array[(node_index + 1) % NB_OF_NODE].coord_y, 
 					  COLOR_BLACK);
 		}
-		
-		// Incremente node coord
-		for(node_index = 0; node_index < NB_OF_NODE; node_index++)
-		{
-			if (node_array[node_index].sens_x == 1)
-			{
-				if(node_array[node_index].coord_x >= X_MAX)
-				{
-					node_array[node_index].sens_x = 0;
-				}
-				else 
-				{
-					node_array[node_index].coord_x++;
-				}
-			}
-			else 
-			{
-				if(node_array[node_index].coord_x <= 0)
-				{
-					node_array[node_index].sens_x = 1;
-				}
-				else 
-				{
-					node_array[node_index].coord_x--;
-				}
-			}
-			
-			if (node_array[node_index].sens_y == 1)
-			{
-				if(node_array[node_index].coord_y >= Y_MAX)
-				{
-					node_array[node_index].sens_y = 0;
-				}
-				else 
-				{
-					node_array[node_index].coord_y++;
-				}
-			}
-			else 
-			{
-				if(node_array[node_index].coord_y <= 0)
-				{
-					node_array[node_index].sens_y = 1;
-				}
-				else 
-				{
-					node_array[node_index].coord_y--;
-				}
-			}
-		}
+		swapBufferRegister();
+
+		calculImage();
 		
 		// Draw figure
 		for(node_index = 0; node_index < NB_OF_NODE; node_index++)
@@ -130,17 +90,79 @@ int main(void)
 					  node_array[(node_index + 1) % NB_OF_NODE].coord_y, 
 					  color_array[node_index % NB_COLOR]);
 		}
+		swapBufferRegister();
 	}
 }
 
 // FUNCTIONS ------------------------------------------------------------------------------------------------
+void calculImage()
+{
+	// Incremente node coord
+	for(node_index = 0; node_index < NB_OF_NODE; node_index++)
+	{
+		if (node_array[node_index].sens_x == 1)
+		{
+			if(node_array[node_index].coord_x >= X_MAX)
+			{
+				node_array[node_index].sens_x = 0;
+			}
+			else 
+			{
+				node_array[node_index].coord_x += INCREMENT;
+			}
+		}
+		else 
+		{
+			if(node_array[node_index].coord_x <= 0)
+			{
+				node_array[node_index].sens_x = 1;
+			}
+			else 
+			{
+				node_array[node_index].coord_x -= INCREMENT;
+			}
+		}
+		
+		if (node_array[node_index].sens_y == 1)
+		{
+			if(node_array[node_index].coord_y >= Y_MAX)
+			{
+				node_array[node_index].sens_y = 0;
+			}
+			else 
+			{
+				node_array[node_index].coord_y += INCREMENT;
+			}
+		}
+		else 
+		{
+			if(node_array[node_index].coord_y <= 0)
+			{
+				node_array[node_index].sens_y = 1;
+			}
+			else 
+			{
+				node_array[node_index].coord_y -= INCREMENT;
+			}
+		}
+	}
+}
+
+void swapBufferRegister()
+{
+	*FRONT_BUFFER_REGISTER = 1;	
+	p_front_buffer = BACK_BUFFER_ADRESS;
+	p_back_buffer  = FRONT_BUFFER_ADRESS;
+	while ((*STATUS_REGISTER & 1) !=0);
+}
+
 void draw_pixel(uint16_t x, uint16_t y, uint16_t color)
 {
 	uint32_t offset;
 	
 	offset = x + (y << 9);
 	
-	*(PIXELMAP_BASE_ADRESS + offset) = color;
+	*(p_back_buffer + offset) = color;
 }
 void draw_background(uint16_t color)
 {
